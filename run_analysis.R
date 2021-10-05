@@ -14,13 +14,18 @@ subject_train <- read.table("UCI HAR Dataset/train/subject_train.txt", col.names
 x_train <- read.table("UCI HAR Dataset/train/X_train.txt", col.names = features$functions)
 y_train <- read.table("UCI HAR Dataset/train/y_train.txt", col.names = "code")
 
+#Merged data
 X <- rbind(x_train, x_test)
 Y <- rbind(y_train, y_test)
 
 Subject <- rbind(subject_train, subject_test)
 
 Merged_Data <- cbind(Subject, Y, X)
+
+# Extracts on mean and SD
 TidyData <- Merged_Data %>% select(subject, code, contains("mean"), contains("std"))
+
+# uses descriptive activity names to name the activities in the data set
 TidyData$code <- activities[TidyData$code, 2]
 
 names(TidyData)[2] = "activity"
